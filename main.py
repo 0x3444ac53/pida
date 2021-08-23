@@ -74,22 +74,22 @@ def exit_ncmpcpp():
 class mainMenu:
     def __init__(self):
         self.command_map = [
-            lambda : None,                   # 0
-            lambda : start_ncmpcpp(),        # 1
-            lambda : start_todoList(),       # 2
-            lambda : None,                   # 3
-            lambda : None,                   # 4
-            lambda : print("6734673467364"),                   # 5
-            lambda : self.update_this_script(),   # 6
-            lambda : None,                   # 7
-            lambda : None,                   # 8
-            lambda : None,                   # 9
-            lambda : None,                   # A
-            lambda : None,                   # B
-            lambda : None,                   # C
-            lambda : None,                   # D
-            lambda : None,                   # E
-            lambda : restart_this_script(),  # F
+            lambda : None,                       # 0
+            lambda : None,                       # 1
+            lambda : None,                       # 2
+            lambda : None,                       # 3
+            lambda : None,                       # 4
+            lambda : print("6734673467364"),     # 5
+            lambda : self.update_this_script(),  # 6
+            lambda : None,                       # 7
+            lambda : None,                       # 8
+            lambda : None,                       # 9
+            lambda : None,                       # A
+            lambda : None,                       # B
+            lambda : None,                       # C
+            lambda : None,                       # D
+            lambda : None,                       # E
+            lambda : restart_this_script(),      # F
         ]
         for i in range(100):
             print("HELLO")
