@@ -2,10 +2,12 @@
 from pitftgpio import PiTFT_GPIO
 from time import sleep
 import os
-pitft = PiTFT_GPIO()
 import keyboard
+from screens.ncmpcpp import ncmpcpp
+from button_grabber import Button_input
 
 screen_detector = 0
+pitft = PiTFT_GPIO()
 command_sets = {
     'vimwiki_Todo' : [
         lambda : None,                   # 0
@@ -50,7 +52,7 @@ command_sets = {
         lambda : None,                   # 3
         lambda : None,                   # 4
         lambda : None,                   # 5
-        lambda : None,                   # 6
+        lambda : update_this_script(),   # 6
         lambda : None,                   # 7
         lambda : None,                   # 8
         lambda : None,                   # 9
@@ -111,24 +113,4 @@ def clearplaylist():
     sleep(.1)
     keyboard.send("y")
 
-def button_grabber(command_map, vals=[False, False, False, False]):
-    sleep(.1)
-    keylist = [
-               pitft.Button3,
-               pitft.Button1,
-               pitft.Button2,
-               pitft.Button4
-               ]
-    if sum(keylist) == 0:
-        command_map[int("".join(
-            map(lambda x: str(int(x)), vals)),2)]()
-        return keylist
-    else:
-        return [x[0] or x[1] for x in zip(keylist,
-                                          button_grabber(command_map, vals=keylist))]
-
-mainMenu()
-current_state = 'mainMenu'
-
-while True:
-    button_grabber(command_sets[current_state])
+controller = Button_input(command_sets['mainMenu'])
