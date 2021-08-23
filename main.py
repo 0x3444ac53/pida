@@ -4,11 +4,8 @@ from time import sleep
 import os
 import keyboard
 from screens.ncmpcpp import ncmpcpp
-from button_grabber import Button_input
 import git
 
-screen_detector = 0
-pitft = PiTFT_GPIO()
 command_sets = {
     'vimwiki_Todo' : [
         lambda : None,                   # 0
@@ -73,7 +70,6 @@ def exit_ncmpcpp():
     sleep(.1)
     mainMenu()
 
-
 class mainMenu:
     def __init__(self):
         self.command_map = [
@@ -83,7 +79,7 @@ class mainMenu:
             lambda : None,                   # 3
             lambda : None,                   # 4
             lambda : print("6734673467364"),                   # 5
-            lambda : update_this_script(),   # 6
+            lambda : self.update_this_script(),   # 6
             lambda : None,                   # 7
             lambda : None,                   # 8
             lambda : None,                   # 9
@@ -108,8 +104,10 @@ class mainMenu:
             """)
 
     def update_this_script(self):
+        print("Updating repo")
         repo = git.Repo("/home/pi/bin/pida")
         repo.repo.remotes.origin.pull()
+        print("Done! Rebooting now...")
         os.system('shutdown -r now')
 
 
