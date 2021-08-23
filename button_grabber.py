@@ -1,10 +1,12 @@
 from multiprocessing import Process
 from pitftgpio import PiTFT_GPIO
+from time import sleep
 
 class Button_input():
     def __init__(self, button_map):
         self.button_map = button_map
-        self.proc = Process(self.grabber_wrapper, args=(button_map))
+        self.proc = Process(target=self.grabber_wrapper,
+                            args=(button_map, ))
         self.pitft = PiTFT_GPIO()
         self.proc.start()
 
@@ -28,8 +30,9 @@ class Button_input():
             if sum(keylist) == 0:
                 command_map[int("".join(
                     map(lambda x: str(int(x)), vals)),2)]()
+                return keylist
             else:
                 return [x[0] or x[1] for x in zip(keylist,
-                                                  button_grabber(command_map, vals=keylist))]
+                                                  self.button_grabber(command_map, vals=keylist))]
 
 

@@ -1,3 +1,0 @@
-!/bin/bash
-mpd ~/.mpd/mpd.conf
-sudo /home/pi/bin/,music_control.py &

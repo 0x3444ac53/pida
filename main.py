@@ -5,6 +5,7 @@ import os
 import keyboard
 from screens.ncmpcpp import ncmpcpp
 from button_grabber import Button_input
+import git
 
 screen_detector = 0
 pitft = PiTFT_GPIO()
@@ -45,25 +46,7 @@ command_sets = {
         lambda : clearplaylist(),        # E
         lambda : exit_ncmpcpp(),         # F
     ],
-    'mainMenu' : [
-        lambda : None,                   # 0
-        lambda : start_ncmpcpp(),        # 1
-        lambda : start_todoList(),       # 2
-        lambda : None,                   # 3
-        lambda : None,                   # 4
-        lambda : None,                   # 5
-        lambda : update_this_script(),   # 6
-        lambda : None,                   # 7
-        lambda : None,                   # 8
-        lambda : None,                   # 9
-        lambda : None,                   # A
-        lambda : None,                   # B
-        lambda : None,                   # C
-        lambda : None,                   # D
-        lambda : None,                   # E
-        lambda : restart_this_script(),  # F
-    ]
-}
+    }
 
 def start_todoList():
     keyboard.write('nvim')
@@ -90,27 +73,52 @@ def exit_ncmpcpp():
     sleep(.1)
     mainMenu()
 
-def mainMenu():
-    global current_state
-    current_state = 'mainMenu'
-    keyboard.write('clear')
-    keyboard.send('enter')
-    sleep(3)
-    print("""
-    Main Menu:
-        1. ncmpcpp
-        2. TodoList
-        3. ScreenSaver
-        4. Update TodoList
-        5. Update Music
-        6. Update This Script
-        7 Full Update
-        15. Shut it Down (I haven't implemented this yet)
-    """)
+
+class mainMenu:
+    def __init__(self):
+        self.command_map = [
+            lambda : None,                   # 0
+            lambda : start_ncmpcpp(),        # 1
+            lambda : start_todoList(),       # 2
+            lambda : None,                   # 3
+            lambda : None,                   # 4
+            lambda : print("6734673467364"),                   # 5
+            lambda : update_this_script(),   # 6
+            lambda : None,                   # 7
+            lambda : None,                   # 8
+            lambda : None,                   # 9
+            lambda : None,                   # A
+            lambda : None,                   # B
+            lambda : None,                   # C
+            lambda : None,                   # D
+            lambda : None,                   # E
+            lambda : restart_this_script(),  # F
+        ]
+        for i in range(100):
+            print("HELLO")
+        print("""Main Menu:
+            1. ncmpcpp
+            2. TodoList
+            3. ScreenSaver
+            4. Update TodoList
+            5. Update Music
+            6. Update This Program
+            7 Full Update
+            5. Shut it Down (I haven't implemented this yet)
+            """)
+
+    def update_this_script(self):
+        repo = git.Repo("/home/pi/bin/pida")
+        repo.repo.remotes.origin.pull()
+        os.system('shutdown -r now')
+
 
 def clearplaylist():
     keyboard.send("c")
     sleep(.1)
     keyboard.send("y")
 
-controller = Button_input(command_sets['mainMenu'])
+if __name__ == '__main__':
+    controller = Button_input([lambda *_: None])
+    menu = mainMenu()
+    controller.change_screen(menu.command_map)
